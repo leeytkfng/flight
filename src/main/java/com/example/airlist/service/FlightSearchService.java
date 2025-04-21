@@ -3,6 +3,8 @@ package com.example.airlist.service;
 import com.example.airlist.dto.FlightDto;
 import com.example.airlist.entity.Flight_info;
 import com.example.airlist.repository.FlightInfoRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -19,21 +21,21 @@ public class FlightSearchService {
         this.flightInfoRepository = flightInfoRepository;
     }
 
-    public List<FlightDto> findOneWays(String departure, String arrival, String date) {
+    public Page<FlightDto> findOneWays(String departure, String arrival, String date, Pageable pageable) {
         if (date == null || date.isBlank()) {
-            return flightInfoRepository.findByDepartureAAndArrival(departure, arrival)
-                    .stream().map(this::toDto).toList();
+            return flightInfoRepository.findByDepartureAAndArrival(departure, arrival , pageable)
+                    .map(this::toDto);
         }
         LocalDate targetDate = LocalDate.parse(date);
-        return flightInfoRepository.findByDepartureAndArrivalAndDate(departure, arrival, targetDate)
-                .stream().map(this::toDto).toList();
+        return flightInfoRepository.findByDepartureAndArrivalAndDate(departure, arrival, targetDate, pageable)
+                .map(this::toDto);
     }
 
 
-    public Map<String, List<FlightDto>> findRoundTripSeperate(String dep,String arr,String goDate,String backDate) {
+    public Map<String, List<FlightDto>> findRoundTripSeperate(String dep,String arr,String goDate,String backDate, Pageable pageable) {
         Map<String , List<FlightDto>> result = new HashMap<>();
-        result.put("goList", findOneWays(dep, arr,goDate));
-        result.put("backList", findOneWays(arr, dep,backDate));
+        result.put("goList", findOneWays(dep, arr,goDate,pageable).getContent());
+        result.put("backList", findOneWays(arr, dep,backDate,pageable).getContent());
         return result;
     }
 

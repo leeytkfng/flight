@@ -8,6 +8,7 @@ function FlightList({ filters, allFlights = [] }) {
     const [oneWayFlights, setOneWayFlights] = useState([]);
     const [roundTripFlights, setRoundTripFlights] = useState({ goList: [], backList: [] });
     const [selectedFlightId, setSelectedFlightId] = useState(null);
+    const [page ,setPage] = useState(0);
 
 
     // 2.filters가 바뀔때마다 데이터 요청
@@ -28,7 +29,11 @@ function FlightList({ filters, allFlights = [] }) {
                         : "http://localhost:8080/api/flights/search";
 
                     const res = await axios.get(Uri, {
-                        params: cleanParams
+                        params: {
+                            ...cleanParams,
+                        page: page,
+                        size: 10}
+
                     });
 
                     if (filters.tripType === "round") {
@@ -38,7 +43,7 @@ function FlightList({ filters, allFlights = [] }) {
                         setRoundTripFlights({ goList, backList });
                         setOneWayFlights([]);
                     } else {
-                        setOneWayFlights(res.data);
+                        setOneWayFlights(res.data.content);
                         setRoundTripFlights({ goList: [], backList: [] });
                     }
 

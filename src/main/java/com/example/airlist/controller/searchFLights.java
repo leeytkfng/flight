@@ -4,6 +4,8 @@ import com.example.airlist.dto.FlightDto;
 import com.example.airlist.dto.RountTripDto;
 import com.example.airlist.repository.FlightInfoRepository;
 import com.example.airlist.service.FlightSearchService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,15 +32,17 @@ public class searchFLights {
                                            @RequestParam String departure,
                                            @RequestParam String arrival,
                                            @RequestParam(value = "date" , required = false) String date,
-                                           @RequestParam(required = false) String returnDate) {
+                                           @RequestParam(required = false) String returnDate
+    , Pageable pageable) {
+
         if(tripType.equals("oneway")){
-            List<FlightDto> result = flightSearchService.findOneWays(departure,arrival,date);
+            Page<FlightDto> result = flightSearchService.findOneWays(departure,arrival,date,pageable);
             return ResponseEntity.ok(result);
         }
 
         if (tripType.equals("round")){
-            List<FlightDto> goList = flightSearchService.findOneWays(departure,arrival,date);
-            List<FlightDto> backList = flightSearchService.findOneWays(arrival,departure,returnDate);
+            Page<FlightDto> goList = flightSearchService.findOneWays(departure,arrival,date,pageable);
+            Page<FlightDto> backList = flightSearchService.findOneWays(arrival,departure,returnDate,pageable);
 
             List<RountTripDto> combined =new ArrayList<>();
             for (FlightDto go : goList){
@@ -57,8 +61,8 @@ public class searchFLights {
     public ResponseEntity<?> searchRoundTripSplit(@RequestParam String departure,
                                                   @RequestParam String arrival,
                                                   @RequestParam(value = "date" , required = false) String date,
-                                                  @RequestParam(required = false) String returnDate) {
-        Map<String, List<FlightDto>> result = flightSearchService.findRoundTripSeperate(departure,arrival,date,returnDate);
+                                                  @RequestParam(required = false) String returnDate ,Pageable pageable) {
+        Map<String, List<FlightDto>> result = flightSearchService.findRoundTripSeperate(departure,arrival,date,returnDate,pageable);
         return ResponseEntity.ok(result);
     }
 }
