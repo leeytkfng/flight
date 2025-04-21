@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/flights")
@@ -28,7 +29,7 @@ public class searchFLights {
     public ResponseEntity<?> searchFlights(@RequestParam("tripType") String tripType,
                                            @RequestParam String departure,
                                            @RequestParam String arrival,
-                                           @RequestParam String date,
+                                           @RequestParam(value = "date" , required = false) String date,
                                            @RequestParam(required = false) String returnDate) {
         if(tripType.equals("oneway")){
             List<FlightDto> result = flightSearchService.findOneWays(departure,arrival,date);
@@ -37,7 +38,7 @@ public class searchFLights {
 
         if (tripType.equals("round")){
             List<FlightDto> goList = flightSearchService.findOneWays(departure,arrival,date);
-            List<FlightDto> backList = flightSearchService.findOneWays(arrival,departure,date);
+            List<FlightDto> backList = flightSearchService.findOneWays(arrival,departure,returnDate);
 
             List<RountTripDto> combined =new ArrayList<>();
             for (FlightDto go : goList){
@@ -50,5 +51,14 @@ public class searchFLights {
         }
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("안된다 이용수야");
+    }
+
+    @GetMapping("/search/split")
+    public ResponseEntity<?> searchRoundTripSplit(@RequestParam String departure,
+                                                  @RequestParam String arrival,
+                                                  @RequestParam(value = "date" , required = false) String date,
+                                                  @RequestParam(required = false) String returnDate) {
+        Map<String, List<FlightDto>> result = flightSearchService.findRoundTripSeperate(departure,arrival,date,returnDate);
+        return ResponseEntity.ok(result);
     }
 }

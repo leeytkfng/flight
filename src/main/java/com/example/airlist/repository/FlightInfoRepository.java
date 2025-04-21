@@ -12,10 +12,14 @@ import java.util.Optional;
 public interface FlightInfoRepository extends JpaRepository<Flight_info, Long> {
 
     @Query("SELECT f FROM Flight_info f " +
-            "WHERE f.departure.aNameKor = :departure " +
-            "AND f.arrival.aNameKor = :arrival " +
-            "AND FUNCTION('DATE', f.departureTime) = :date")
+            "WHERE f.departure.aNameKor like %:departure% " +
+            "AND f.arrival.aNameKor like %:arrival% " +
+            "AND ( FUNCTION('DATE', f.departureTime) =:date)")
     List<Flight_info> findByDepartureAndArrivalAndDate(@Param("departure") String departure,
                                                        @Param("arrival") String arrival,
                                                        @Param("date") LocalDate date);
+
+    @Query("select f from Flight_info f where f.departure.aNameKor like %:departure% AND f.arrival.aNameKor like %:arrival%")
+    List<Flight_info> findByDepartureAAndArrival(@Param("departure") String departure, @Param("arrival")String arrival);
+
 }

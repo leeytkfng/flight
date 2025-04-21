@@ -23,18 +23,6 @@ function FlightPage() {
     }, [filters]);
 
     const handleSearch = (searchData) => {
-        // searchData가 비어있는 값이 있을 경우 검증
-        const { departure, arrival, date, tripType, returnDate } = searchData;
-
-        if (!departure || !arrival || !date) {
-            alert("모든 정보를 입력해주세요!");
-            return;
-        }
-        if (tripType === "round" && !returnDate) {
-            alert("왕복일 경우 귀국 날짜도 필요합니다.");
-            return;
-        }
-
         setFilters(searchData); // 상태 전달
     };
 

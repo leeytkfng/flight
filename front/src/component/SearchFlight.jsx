@@ -11,12 +11,8 @@ const SearchFlight = ({onSearch}) => {
 
 
     const handleSearch = () => {
-        if (!departure || !arrival || !date) {
-            alert("모든 정보를 입력해주세요!");
-            return;
-        }
-        if (tripType === "round" && !returnDate) {
-            alert("왕복일 경우 귀국 날짜도 필요합니다.");
+        if (!departure || !arrival) {
+            alert("출발 , 도착을 입력해라");
             return;
         }
         onSearch({ tripType, departure, arrival, date, returnDate });
@@ -67,6 +63,16 @@ const SearchFlight = ({onSearch}) => {
                         onChange={(e) => setDate(e.target.value)}
                     />
                 </div>
+                {tripType === "round" && (
+                    <div className="form-row">
+                        <input
+                            type="date"
+                            value={returnDate}
+                            onChange={(e) => setReturnDate(e.target.value)}
+                        />
+                    </div>
+                )}
+
                 <div className="form-row">
                     <button className="search-btn" onClick={handleSearch}>
                         검색
