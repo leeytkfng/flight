@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import './FlightList.css';
 
-function FlightList({ filters, allFlights = [] }) {
+function FlightList({ filters, allFlights = [] ,onSelectedFlights }) {
 
     // 1.상태 선언
     const [oneWayFlights, setOneWayFlights] = useState([]);
@@ -76,11 +76,25 @@ function FlightList({ filters, allFlights = [] }) {
         return `${hours}시간 ${minutes}분`;
     };
 
+    const handleSelectedFlight = (flight) => {
+        setSelectedFlightId(flight.id);
+
+        if (filters?.tripType === "round"){
+            onSelectedFlights((prev) => {
+                const exists = prev.find((f) => f.id === flight.id);
+                const updated = exists ? prev : [...prev, flight];
+                return updated.slice(0,2);
+            });
+        } else {
+            onSelectedFlights([flight]);
+        }
+    }
+
     const renderFlightCard = (flight, idx, type) => (
         <div
             key={`${type}-${flight.id}-${idx}`} // ✅ key에 index 포함
             className={`flight-card ${selectedFlightId === flight.id ? 'selected' : ''}`}
-            onClick={() => setSelectedFlightId(flight.id)}
+            onClick={() => handleSelectedFlight(flight)}
         >
             <div className="section section-left">
                 <h3>{flight.aircraftType}</h3>

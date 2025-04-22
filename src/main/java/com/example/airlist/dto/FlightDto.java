@@ -2,8 +2,10 @@ package com.example.airlist.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 @AllArgsConstructor
 public class FlightDto {
     private Long id;

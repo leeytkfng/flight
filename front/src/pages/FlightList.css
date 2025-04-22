@@ -204,3 +204,41 @@
   flex-direction: column;
   gap: 16px;
 }
+
+
+.selected-flights-box {
+  background: linear-gradient(to right, #e3f2fd, #ffffff);
+  border: 2px solid #90caf9;
+  border-radius: 16px;
+  padding: 1.5rem 2rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 15px rgba(0, 123, 255, 0.1);
+  text-align: left;
+  max-width: 100%;
+  transition: all 0.3s ease;
+}
+
+.selected-flights-box:hover {
+  box-shadow: 0 6px 20px rgba(0, 123, 255, 0.2);
+}
+
+
+.selected-flight {
+  background-color: #ffffff;
+  border-left: 4px solid #2196f3;
+  padding: 1rem;
+  margin: 0.75rem 0;
+  border-radius: 10px;
+  font-weight: 600;
+  color: #333;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  transition: background-color 0.3s;
+}
+
+.selected-flight:hover {
+  background-color: #f0f7ff;
+}
+
