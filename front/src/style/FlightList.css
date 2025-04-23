@@ -207,7 +207,6 @@
 
 
 .selected-flights-box {
-  display: flex;
   background: linear-gradient(to right, #e3f2fd, #ffffff);
   border: 2px solid #90caf9;
   border-radius: 16px;
@@ -215,7 +214,7 @@
   margin-bottom: 2rem;
   box-shadow: 0 4px 15px rgba(0, 123, 255, 0.1);
   text-align: left;
-  max-width: 100%;
+  max-width: 1300px;
   transition: all 0.3s ease;
 }
 
@@ -224,7 +223,7 @@
 }
 
 
-.selected-flight1 {
+.selected-flight {
   background-color: #ffffff;
   border-left: 4px solid #2196f3;
   padding: 1rem;
@@ -243,9 +242,22 @@
   background-color: #f0f7ff;
 }
 
-
 .flight-card.selected {
   background-color: #f0f8ff;
   border: 2px solid #007bff;
 }
 
+.booking-button {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 20px;
+}
+
+.booking-button:disabled {
+  background-color: #ddd;
+  cursor: not-allowed;
+}

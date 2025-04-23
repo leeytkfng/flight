@@ -1,0 +1,99 @@
+.header {
+    background-color: white;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 10vh;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 7vw;
+    box-sizing: border-box;
+    z-index: 1000;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.logo {
+    color: rgb(85, 85, 255);
+    font-style: italic;
+    font-size: 1.8rem;
+    cursor: pointer;
+}
+
+.nav-menu {
+    display: flex;
+    gap: 5rem;
+}
+
+.nav-menu span {
+    cursor: pointer;
+    font-weight: 500;
+    color: #333;
+    transition: color 0.3s;
+}
+
+.nav-menu span:hover {
+    color: rgb(85, 85, 255);
+}
+
+.header-buttons {
+    display: flex;
+    gap: 1rem;
+}
+
+.header-buttons button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 20px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.login-btn {
+    background-color: transparent;
+    color: rgb(85, 85, 255);
+    border: 2px solid rgb(85, 85, 255);
+}
+
+.login-btn:hover {
+    background-color: rgb(85, 85, 255);
+    color: white;
+}
+
+.signup-btn {
+    background-color: rgb(85, 85, 255);
+    color: white;
+}
+
+.signup-btn:hover {
+    background-color: rgb(65, 65, 230);
+}
+
+.mypage-btn {
+    background-color: transparent;
+    color: rgb(85, 85, 255);
+    border: 2px solid rgb(85, 85, 255);
+    padding: 8px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.mypage-btn:hover {
+    background-color: rgb(85, 85, 255);
+    color: white;
+}
+
+.logout-btn {
+    background-color: rgb(85, 85, 255);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.logout-btn:hover {
+    background-color: rgb(65, 65, 230);
+}

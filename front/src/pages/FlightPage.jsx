@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react";
-import SearchFlight from "../component/SearchFlight.jsx";
+import SearchFlight from "../components/SearchFlight.jsx";
 import FlightList from "./FlightList.jsx";
 import axios from "axios";
+import MapWithPath from "../components/MapWithPath.jsx";
+import "./FlightPage.css"
 
 function FlightPage() {
+
     const [filters, setFilters] = useState(null);
     const [allFlights, setAllFlights] = useState([]);
     const [selectedFlights, setSelectedFlights] = useState([]);
@@ -43,21 +46,60 @@ function FlightPage() {
     return (
         <div>
             <SearchFlight onSearch={handleSearch} />
-            {/* filters가 있으면 필터 기반 검색, 없으면 전체 항공 리스트 전달 */}
-            {selectedFlights.length > 0 && (
-                <div className="selected-flights-box">
-                    <h3>선택된 항공편</h3>
-                    {selectedFlights.map((flight,idx)=> (
-                        <div key={idx} className="selected-flight">
-                            {flight.departureName} ->{flight.arrivalName} ({flight.departureName})
-                        </div>
-                    ))}
-                    <button onClick={sendTokafka}>예약 전송</button>
+
+            <div className="selected-flights-box">
+                <MapWithPath flights={selectedFlights} />
+
+                <div className="flight-info-box">
+                    <h3 className="mb-5">선택된 항공편</h3>
+
+                    <div className="flight-pair-container1">
+                        {selectedFlights.length === 2 ? (
+                            <>
+                                {/* 출발 항공편 */}
+                                <div className="flight-card1">
+                                    <p className="route1">
+                                        ✈ {selectedFlights[0].departureName} → {selectedFlights[0].arrivalName}
+                                    </p>
+                                    <p className="date1">🗓 {selectedFlights[0].departureTime?.split("T")[0]}</p>
+                                </div>
+
+                                {/* 돌아오는 항공편 */}
+                                <div className="flight-card1">
+                                    <p className="route1">
+                                        ✈ {selectedFlights[1].departureName} → {selectedFlights[1].arrivalName}
+                                    </p>
+                                    <p className="date1">🗓 {selectedFlights[1].departureTime?.split("T")[0]}</p>
+                                </div>
+                            </>
+                        ) : (
+                            // 편도일 때는 그대로
+                            selectedFlights.map((flight, idx) => (
+                                <div key={idx} className="flight-card1">
+                                    <p className="route1">
+                                        ✈ {flight.departureName} → {flight.arrivalName}
+                                    </p>
+                                    <p className="date1">🗓 {flight.departureTime?.split("T")[0]}</p>
+                                </div>
+                            ))
+                        )}
+                    </div>
+
+
+                    <button className="send-button mt-3" onClick={sendTokafka}>
+                        예약하기
+                    </button>
                 </div>
-            )}
-            <FlightList filters={filters} allFlights={allFlights} onSelectedFlights={setSelectedFlights} />
+            </div>
+
+            <FlightList
+                filters={filters}
+                allFlights={allFlights}
+                onSelectedFlights={setSelectedFlights}
+            />
         </div>
     );
+
 }
 
 export default FlightPage;
