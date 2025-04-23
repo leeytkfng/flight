@@ -23,11 +23,11 @@ public class FlightSearchService {
 
     public Page<FlightDto> findOneWays(String departure, String arrival, String date, Pageable pageable) {
         if (date == null || date.isBlank()) {
-            return flightInfoRepository.findByDepartureAAndArrival(departure, arrival , pageable)
+            return flightInfoRepository.findWithDetailsNoDate(departure, arrival, pageable)
                     .map(this::toDto);
         }
         LocalDate targetDate = LocalDate.parse(date);
-        return flightInfoRepository.findByDepartureAndArrivalAndDate(departure, arrival, targetDate, pageable)
+        return flightInfoRepository.findWithDetails(departure, arrival, targetDate, pageable)
                 .map(this::toDto);
     }
 
